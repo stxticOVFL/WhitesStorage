@@ -8,6 +8,16 @@
 - Easy enable/disable of any mod, not just auto-updated ones
 - Easy dependency handling for things such as UniverseLib for mods that need it
 
+## Current Mods
+- **[MelonPreferencesManager](https://github.com/Bluscream/MelonPreferencesManager)** *(1.3.1)* by Bluescream/kafeijao
+- **[NeonLite](https://github.com/MOPSKATER/NeonLite)** *2.2.1* by MOPSKATER/faustas
+- **[GUnJammer](https://github.com/MOPSKATER/GUnJammer)** *0.1.0* by MOPSKATER
+- **[Puppy Powertools](https://github.com/PandorasFox/NeonWhite-PuppyPowerTools)** *1.5.6* by PandorasFox
+- **[Event Tracker](https://github.com/stxticOVFL/EventTracker)** *2.0.1* by stxticOVFL 
+- **[Input Display](https://github.com/stxticOVFL/NeonInputDisplay)** *1.0.2-a* by stxticOVFL
+- **[NeonCapture](https://github.com/stxticOVFL/NeonCapture)** *1.0.0* by stxticOVFL
+- **[YourStory](https://github.com/stxticOVFL/YourStory)** *1.0.0* by stxticOVFL
+
 ## Installation
 1. Download [MelonLoader](https://github.com/LavaGang/MelonLoader/releases/latest) and install it onto your `Neon White.exe`.
 2. Run the game once. This will create required folders.
