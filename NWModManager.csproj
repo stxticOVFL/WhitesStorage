@@ -40,7 +40,6 @@
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Neon White\MelonLoader\net35\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -64,7 +63,4 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) "C:\Program Files (x86)\Steam\steamapps\common\Neon White\Plugins"</PostBuildEvent>
-  </PropertyGroup>
 </Project>
