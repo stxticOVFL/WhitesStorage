@@ -160,13 +160,14 @@ namespace NWModManager
 
                 foreach (var dep in deps)
                 {
+                    if (string.IsNullOrEmpty(dep)) continue;
                     var filename = Path.GetFileNameWithoutExtension(dep);
                     Msg($"    Downloading/updating dependency {Path.GetFileNameWithoutExtension(dep)}...");
 
                     try
                     {
                         using var client = new WebClient();
-                        File.WriteAllBytes(MelonEnvironment.ModsDirectory + "/" + filename, client.DownloadData(dep));
+                        File.WriteAllBytes(MelonEnvironment.ModsDirectory + "/" + filename + ".dll", client.DownloadData(dep));
                         Msg($"    Successfully downloaded {filename}!");
                     }
                     catch (Exception e)
