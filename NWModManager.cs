@@ -129,7 +129,7 @@ namespace NWModManager
 
                     try
                     {
-                        var split = client.DownloadString("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/master/Keys/PublicKeys.pub").Split('|');
+                        var split = client.DownloadString("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/encrypt-dev/Keys/PublicKeys.pub").Split('|');
                         static byte[] db64(string str) => Convert.FromBase64String(str);
 
                         rsa.ImportParameters(new RSAParameters
@@ -137,8 +137,8 @@ namespace NWModManager
                             Modulus = db64(split[0]),
                             Exponent = db64(split[1])
                         });
-                        byte[] data = client.DownloadData("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/master/Keys/PublicKeys.txt");
-                        if (!rsa.VerifyData(data, SHA256.Create(), client.DownloadData("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/master/Keys/PublicKeys.txt.sig"))) {
+                        byte[] data = client.DownloadData("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/encrypt-dev/Keys/PublicKeys.txt");
+                        if (!rsa.VerifyData(data, SHA256.Create(), client.DownloadData("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/encrypt-dev/Keys/PublicKeys.txt.sig"))) {
                             throw new Exception("The public keys did not pass the signature check.");
                         }
 
