@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NWModManager", "NWModManager.csproj", "{9DC29153-4AC7-4F3A-BB8D-7604166BF768}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyCreator", "KeyCreator\KeyCreator.csproj", "{4D081435-4626-4145-9574-178EAA2EB54D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9DC29153-4AC7-4F3A-BB8D-7604166BF768}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DC29153-4AC7-4F3A-BB8D-7604166BF768}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DC29153-4AC7-4F3A-BB8D-7604166BF768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D081435-4626-4145-9574-178EAA2EB54D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D081435-4626-4145-9574-178EAA2EB54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D081435-4626-4145-9574-178EAA2EB54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D081435-4626-4145-9574-178EAA2EB54D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

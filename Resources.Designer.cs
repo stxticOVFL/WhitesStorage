@@ -39,7 +39,7 @@ namespace NWModManager {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("stxticNWStash.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NWModManager.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,12 +61,23 @@ namespace NWModManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EventTracker 2.0.1 https://github.com/stxticOVFL/EventTracker/releases/latest/download/EventTracker.dll
-        ///InputDisplay 1.1.0 https://github.com/stxticOVFL/NeonInputDisplay/releases/latest/download/InputDisplay.dll
-        ///NeonCapture 1.0.1 https://github.com/stxticOVFL/NeonCapture/releases/latest/download/NeonCapture.dll
-        ///YourStory 1.0.0 https://github.com/stxticOVFL/YourStory/releases/latest/download/YourStory.dll
+        ///   Looks up a localized string similar to PublicKeys u3PhjcFIbsQH3stJC1NQnspO7HV2eFBBE9DnX35FspYeksPbfA/OqQlYdrJmgoqJ/Ak++zoyzkrYdFPwRrRcdiIBGoOlQmCuMfL3jSSlj9t6zYD0Lo+fx2UVLSlAEGc+WYdZzhCHXSsTR6k12en+rzpxUOH4+zgo7BH1Wh8uq1i6M/hh8kOIUqFbTzqC/aojw0GM9afysnfEs50jG7tR3swV+LM+jibiTaS04jb7LmcoMipwCs2ugYB1Z4LdqCPiA+hcrBIJAsGrK9rzC1bHLKoDJlw2QhqIwJDTq1FBoukXHFz3kxbosqLv+2qDBbXnvJNXxJQx58+3qEtMCnHcn6Yf4kjnNgvxtPKTNy3T7PMLf7OXOmL8sFdiBrTAjfwlDPvZ1E8DqemI+1fgipxI5Wh4qKXkPTwYep/w1i+Z2qgUqalG+pPhPxzkDI0sx2V093qqGSGvfRwbDqtlhc/NTHapSgLEvag+7h6dY/sV6MsDaPbE7p9Gg [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string PublicKeys {
+            get {
+                return ResourceManager.GetString("PublicKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MelonPreferencesManager 1.3.0 https://github.com/Bluscream/MelonPreferencesManager/releases/latest/download/MelonPrefManager.Mono.dll
         ///
-        ///NeonLite 2.2.1 https://github.com/MOPSKATER/NeonLite/releases/latest/download/NeonLite.dll.
+        ///NeonLite 2.2.1 https://github.com/MOPSKATER/NeonLite/releases/latest/download/NeonLite.dll
+        ///GUnJammer 0.1.0 https://github.com/MOPSKATER/GUnJammer/releases/latest/download/GUnJammer.dll
+        ///
+        ///Puppy Powertools 1.5.6 https://github.com/PandorasFox/NeonWhite-PuppyPowerTools/releases/latest/download/PuppyPowertools.dll
+        ///
+        ///Event Tracker 2.0.1 https://github.com/stxticOVFL/EventTra [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Updates {
             get {

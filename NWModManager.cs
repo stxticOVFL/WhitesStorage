@@ -3,16 +3,20 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using MelonLoader;
 using MelonLoader.Utils;
 using static MelonLoader.MelonLogger;
 using Mono.Cecil;
+using System.Text;
 
 namespace NWModManager
 {
     public class NWModManager : MelonPlugin
     {
+        static WebClient client;
+        static RSACryptoServiceProvider rsa;
         static string updates = Resources.Updates;
         static readonly Regex updateMatch = new(@"^(?<name>.*) +(?<ver>\d+\.\d+.*?) +(?<link>http.*?)(?: +(?<deps>.*))?$");
         static readonly Dictionary<string, Tuple<Semver.SemVersion, Match>> updateDict = [];
@@ -21,8 +25,21 @@ namespace NWModManager
 
         static readonly Dictionary<string, MelonInfoAttribute> cachedAttr = [];
 
+        public void DownloadVerifyDLL(string url, string output, RSAParameters key)
+        {
+            rsa.ImportParameters(key);
+            byte[] data = client.DownloadData(url);
+            if (!rsa.VerifyData(data, SHA256.Create(), client.DownloadData(url + ".sig")))
+            {
+                throw new Exception("The DLL did not pass the signature check. Please contact the mod developer immediately.");
+            }
+            File.WriteAllBytes(output, data);
+        }
+
         public override void OnApplicationEarlyStart()
         {
+            client = new();
+            rsa = new();
 
             Settings.Register();
             if (Settings.UpdateEnabled.Value)
@@ -31,17 +48,15 @@ namespace NWModManager
                 Msg("Fetching updates...");
                 try
                 {
-                    using var client = new WebClient();
                     updates = client.DownloadString("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/master/Updates.txt");
                 }
                 catch (Exception e)
                 {
-                    Warning("  Failed to pull latest updates:");
-                    Error($"  {e}");
+                    Error($"  Failed to pull latest updates: {e.Message}");
                     Warning("  Using backup list from build date!!! This may be *EXTREMELY* outdated!!");
                 }
 
-                using var reader = new StringReader(updates);
+                var reader = new StringReader(updates);
                 for (string line = reader.ReadLine(); line != null; line = reader.ReadLine())
                 {
                     if (line == "") continue;
@@ -53,7 +68,7 @@ namespace NWModManager
                     catch (Exception e)
                     {
                         Warning($"  Error parsing line: {line}");
-                        Error($"  {e}");
+                        Error($"  {e.Message}");
                     }
                 }
                 Settings.RegisterMods();
@@ -95,87 +110,154 @@ namespace NWModManager
                     }
                     else if (attribute.SemanticVersion == verDL.Item1)
                     {
-                        Msg("    Version is equal. Skipping.");
+                        Msg("    Version is up-to-date.");
                         continue;
                     }
                     toUpdate[attribute.Name] = file;
                     Msg($"    Marked for download! New version: {verDL.Item1}");
                 }
 
-                Msg("------------------------------");
-
                 HashSet<string> deps = [];
+                Dictionary<string, RSAParameters> keys = [];
 
-                foreach (var mod in toUpdate.Keys)
+                var missing = updateDict.Keys.Except(check);
+
+                if (toUpdate.Count + missing.Count() > 0)
                 {
-                    Msg($"  Downloading new version of {mod}...");
+                    Msg("------------------------------");
+                    Msg("Downloading and verifying the public keys...");
 
                     try
                     {
-                        if (File.Exists(toUpdate[mod] + ".old"))
-                            File.Delete(toUpdate[mod] + ".old");
-                        File.Move(toUpdate[mod], toUpdate[mod] + ".old");
+                        var split = client.DownloadString("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/master/Keys/PublicKeys.pub").Split('|');
+                        static byte[] db64(string str) => Convert.FromBase64String(str);
 
-                        using var client = new WebClient();
-                        var url = updateDict[mod].Item2.Groups["link"].Value;
-                        File.WriteAllBytes(toUpdate[mod], client.DownloadData(url));
-                        Msg($"    Successfully updated {mod}!");
+                        rsa.ImportParameters(new RSAParameters
+                        {
+                            Modulus = db64(split[0]),
+                            Exponent = db64(split[1])
+                        });
+                        byte[] data = client.DownloadData("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/master/Keys/PublicKeys.txt");
+                        if (!rsa.VerifyData(data, SHA256.Create(), client.DownloadData("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/master/Keys/PublicKeys.txt.sig"))) {
+                            throw new Exception("The public keys did not pass the signature check.");
+                        }
 
-                        var depSplit = updateDict[mod].Item2.Groups["deps"]?.Value.Split();
-                        depSplit?.ToList().ForEach(dep => { deps.Add(dep); });
+                        var str = Encoding.UTF8.GetString(data);
+                        reader = new(str);
+                        for (string line = reader.ReadLine(); line != null; line = reader.ReadLine())
+                        {
+                            if (line == "") continue;
+                            try
+                            {
+                                split = line.Substring(line.LastIndexOf(' ')).Split('|');
+                                keys.Add(line.Substring(0, line.LastIndexOf(' ')), new RSAParameters
+                                {
+                                    Modulus = db64(split[0]),
+                                    Exponent = db64(split[1])
+                                });
+                            }
+                            catch (Exception e)
+                            {
+                                Warning($"  Error parsing line: {line}");
+                                Error($"  {e.Message}");
+                            }
+                        }
+
                     }
                     catch (Exception e)
                     {
-                        if (File.Exists(toUpdate[mod] + ".old"))
-                            File.Move(toUpdate[mod] + ".old", toUpdate[mod]);
-                        Error($"    Failed to update mod: {e}");
+                        Error($"  Failed to download/verify public keys: {e.Message}");
+                        Error($"  Downloads will have to be skipped this time around.");
+                        toUpdate.Clear();
+                        missing = Enumerable.Empty<string>();
                     }
                 }
+                
+                // filter out anything that doesn't have a key
+                toUpdate = toUpdate.Where(pair => keys.ContainsKey(pair.Key)).ToDictionary(x => x.Key, x => x.Value);
+                missing = missing.Where(keys.ContainsKey);
 
-
-                foreach (var mod in updateDict.Keys.Except(check))
+                if (toUpdate.Count > 0)
                 {
-                    if (!(bool)Settings.UpdateCategory.GetEntry($"{mod}_U").BoxedValue)
-                        continue;
-                    Msg($"  Missing {mod}! Downloading...");
-                    if (mod != "MelonPreferencesManager")
-                        Settings.EnableCategory.GetEntry($"{mod}_E").BoxedValue = false;
+                    Msg("------------------------------");
 
-                    try
+                    foreach (var mod in toUpdate.Keys)
                     {
-                        var url = updateDict[mod].Item2.Groups["link"].Value;
-                        var filename = Path.GetFileName(url);
-                        using var client = new WebClient();
-                        File.WriteAllBytes(MelonEnvironment.ModsDirectory + "/" + filename, client.DownloadData(url));
-                        Msg($"    Successfully downloaded {mod}!");
+                        Msg($"Downloading new version of {mod}...");
 
-                        var depSplit = updateDict[mod].Item2.Groups["deps"]?.Value.Split();
-                        depSplit?.ToList().ForEach(dep => { deps.Add(dep); });
-                    }
-                    catch (Exception e)
-                    {
-                        Error($"    Failed to download mod: {e}");
+                        try
+                        {
+                            if (File.Exists(toUpdate[mod] + ".old"))
+                                File.Delete(toUpdate[mod] + ".old");
+                            File.Move(toUpdate[mod], toUpdate[mod] + ".old");
+
+                            var url = updateDict[mod].Item2.Groups["link"].Value;
+                            DownloadVerifyDLL(url, toUpdate[mod], keys[mod]);
+                            Msg($"  Successfully updated {mod}!");
+
+                            var depSplit = updateDict[mod].Item2.Groups["deps"]?.Value.Split();
+                            depSplit?.ToList().ForEach(dep => { deps.Add(dep); });
+                        }
+                        catch (Exception e)
+                        {
+                            if (File.Exists(toUpdate[mod] + ".old"))
+                                File.Move(toUpdate[mod] + ".old", toUpdate[mod]);
+                            Error($"  Failed to update mod: {e.Message}");
+                        }
                     }
                 }
 
-                foreach (var dep in deps)
+                if (missing.Count() > 0)
                 {
-                    if (string.IsNullOrEmpty(dep)) continue;
-                    var filename = Path.GetFileNameWithoutExtension(dep);
-                    Msg($"    Downloading/updating dependency {Path.GetFileNameWithoutExtension(dep)}...");
+                    Msg("------------------------------");
 
-                    try
+                    foreach (var mod in missing)
                     {
-                        using var client = new WebClient();
-                        File.WriteAllBytes(MelonEnvironment.ModsDirectory + "/" + filename + ".dll", client.DownloadData(dep));
-                        Msg($"    Successfully downloaded {filename}!");
-                    }
-                    catch (Exception e)
-                    {
-                        Error($"    Failed to download dependency: {e}");
-                    }
+                        if (!(bool)Settings.UpdateCategory.GetEntry($"{mod}_U").BoxedValue)
+                            continue;
+                        Msg($"Missing {mod}! Downloading...");
+                        if (mod != "MelonPreferencesManager")
+                            Settings.EnableCategory.GetEntry($"{mod}_E").BoxedValue = false;
 
+                        try
+                        {
+                            var url = updateDict[mod].Item2.Groups["link"].Value;
+                            var filename = Path.GetFileName(url);
+                            DownloadVerifyDLL(url, MelonEnvironment.ModsDirectory + "/" + filename, keys[mod]);
+                            Msg($"  Successfully downloaded {mod}!");
+
+                            var depSplit = updateDict[mod].Item2.Groups["deps"]?.Value.Split();
+                            depSplit?.ToList().ForEach(dep => { deps.Add(dep); });
+                        }
+                        catch (Exception e)
+                        {
+                            Error($"  Failed to download mod: {e.Message}");
+                        }
+                    }
                 }
+
+                if (deps.Count() > 0) {
+                    Msg("------------------------------");
+
+                    foreach (var dep in deps)
+                    {
+                        if (string.IsNullOrEmpty(dep)) continue;
+                        var filename = Path.GetFileNameWithoutExtension(dep);
+                        Msg($"Downloading/updating dependency {Path.GetFileNameWithoutExtension(dep)}...");
+
+                        try
+                        {
+                            File.WriteAllBytes(MelonEnvironment.ModsDirectory + "/" + filename + ".dll", client.DownloadData(dep));
+                            Msg($"  Successfully downloaded {filename}!");
+                        }
+                        catch (Exception e)
+                        {
+                            Error($"  Failed to download dependency: {e}");
+                        }
+                    }
+                }
+
+                reader.Dispose();
             }
 
             Msg("------------------------------");
@@ -187,12 +269,14 @@ namespace NWModManager
                     Settings.EnableCategory.CreateEntry($"{attribute.Name}_E", true, display_name: $"Enable {attribute.Name}", description: $"Whether or not to enable {attribute.Name}");
                 if (!(bool)Settings.EnableCategory.GetEntry($"{attribute.Name}_E")?.BoxedValue)
                 {
-                    Msg($"  Disabling {attribute.Name}.");
+                    Msg($"  Disabling {attribute.Name}...");
                     disableTemp.Add(file);
                     File.Move(file, file + ".NWMMD");
                 }
             }
             MelonPreferences.Save();
+
+            client.Dispose();
         }
 
         public override void OnPreSupportModule() => disableTemp.ForEach(file => { File.Move(file + ".NWMMD", file); });
