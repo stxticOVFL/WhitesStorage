@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -29,6 +29,7 @@ namespace NWModManager
         {
             rsa.ImportParameters(key);
             byte[] data = client.DownloadData(url);
+            Msg("  Verifying signature...");
             if (!rsa.VerifyData(data, SHA256.Create(), client.DownloadData(url + ".sig")))
             {
                 throw new Exception("The DLL did not pass the signature check. Please contact the mod developer immediately.");
@@ -142,7 +143,10 @@ namespace NWModManager
                             throw new Exception("The public keys did not pass the signature check.");
                         }
 
-                        var str = Encoding.UTF8.GetString(data);
+                        // BOM markings are showing up so this doens't work
+                        // var str = new UTF8Encoding(true).GetString(data);
+                        var str = client.DownloadString("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/encrypt-dev/Keys/PublicKeys.txt");
+
                         reader = new(str);
                         for (string line = reader.ReadLine(); line != null; line = reader.ReadLine())
                         {
@@ -176,6 +180,7 @@ namespace NWModManager
                 // filter out anything that doesn't have a key
                 toUpdate = toUpdate.Where(pair => keys.ContainsKey(pair.Key)).ToDictionary(x => x.Key, x => x.Value);
                 missing = missing.Where(keys.ContainsKey);
+                deps = deps.Where(keys.ContainsKey).ToHashSet();
 
                 if (toUpdate.Count > 0)
                 {
@@ -247,7 +252,7 @@ namespace NWModManager
 
                         try
                         {
-                            File.WriteAllBytes(MelonEnvironment.ModsDirectory + "/" + filename + ".dll", client.DownloadData(dep));
+                            DownloadVerifyDLL(dep, MelonEnvironment.ModsDirectory + "/" + filename + ".dll", keys[dep]);
                             Msg($"  Successfully downloaded {filename}!");
                         }
                         catch (Exception e)
@@ -275,7 +280,8 @@ namespace NWModManager
                 }
             }
             MelonPreferences.Save();
-
+            Msg("------------------------------");
+            rsa.Dispose();
             client.Dispose();
         }
 
