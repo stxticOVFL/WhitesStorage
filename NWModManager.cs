@@ -129,7 +129,7 @@ namespace NWModManager
 
                     try
                     {
-                        var split = client.DownloadString("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/encrypt-dev/Keys/PublicKeys.pub").Split('|');
+                        var split = Resources.PublicKeys.Split('|');
                         static byte[] db64(string str) => Convert.FromBase64String(str);
 
                         rsa.ImportParameters(new RSAParameters
