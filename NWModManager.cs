@@ -51,7 +51,7 @@ namespace NWModManager
 
             foreach (var file in Directory.EnumerateFiles(MelonEnvironment.ModsDirectory, "*.NWMMD"))
             {
-                var name = Path.GetFileNameWithoutExtension(file);
+                var name = file.Substring(0, file.LastIndexOf('.'));
                 File.Move(name + ".NWMMD", name);
             }
 
