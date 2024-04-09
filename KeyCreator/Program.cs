@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
+using System.Xml.Linq;
 
 namespace KeyCreator
 {
@@ -22,10 +23,6 @@ namespace KeyCreator
 
         static int Main(string[] args)
         {
-            foreach (var item in args)
-            {
-                Console.WriteLine($"{item}");
-            }
             if (args.Length < 1)
             {
                 ShowHelp();
@@ -54,6 +51,8 @@ namespace KeyCreator
             var pub = rsa.ExportParameters(false);
             static string b64(byte[] bytes) => Convert.ToBase64String(bytes);
             File.WriteAllText($"{name}.pub", $"{name} {b64(pub.Modulus)}|{b64(pub.Exponent)}");
+
+            Console.WriteLine($"Wrote keys to {name}.priv and {name}.pub.");
             
             return 0;
         }
@@ -63,6 +62,7 @@ namespace KeyCreator
             using var rsa = new RSACryptoServiceProvider();
             rsa.FromXmlString(File.ReadAllText(privkey));
             File.WriteAllBytes($"{dll}.sig", rsa.SignData(File.ReadAllBytes(dll), SHA256.Create()));
+            Console.WriteLine($"Wrote signature to {dll}.sig.");
             return 0;
         }
 
