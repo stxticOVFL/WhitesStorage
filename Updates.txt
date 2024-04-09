@@ -1,4 +1,5 @@
-﻿MelonPreferencesManager 1.3.0 https://github.com/Bluscream/MelonPreferencesManager/releases/latest/download/MelonPrefManager.Mono.dll
+1.1.0
+MelonPreferencesManager 1.3.0 https://github.com/Bluscream/MelonPreferencesManager/releases/latest/download/MelonPrefManager.Mono.dll
 
 NeonLite 2.2.1 https://github.com/MOPSKATER/NeonLite/releases/latest/download/NeonLite.dll
 GUnJammer 0.1.0 https://github.com/MOPSKATER/GUnJammer/releases/latest/download/GUnJammer.dll
