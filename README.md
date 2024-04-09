@@ -4,7 +4,7 @@
 ![image](https://github.com/stxticOVFL/WhitesStorage/assets/29069561/4274e4c4-e49f-4f35-9ff1-3c57318e0733)
 
 ## Features
-- Community-driven, always up-to-date 0-click downloads and updates (feel free to PR to add your/others mods! Just modify `Updates.txt`)
+- Community-driven, always up-to-date 0-click downloads and updates with military-grade encryption (feel free to PR to add your/others mods!)
 - Easy enable/disable of any mod, not just auto-updated ones
 - Easy dependency handling for things such as UniverseLib for mods that need it
 
