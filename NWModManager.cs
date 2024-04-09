@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -11,8 +12,6 @@ using MelonLoader;
 using MelonLoader.Utils;
 using static MelonLoader.MelonLogger;
 using Mono.Cecil;
-using UnityEngine;
-using System.Diagnostics;
 
 namespace NWModManager
 {
@@ -81,7 +80,7 @@ namespace NWModManager
                     MelonPreferences.Save();
                     var result = MessageBox(0, """
                         White's Storage has a new update! Would you like to open the release and plugin folder?
-                        This will close the game once everything has initialized.
+                        This will immediately close the game.
                         
                         (This notice will only show once.)
                         """, "White's Storage Auto-updater", 0x44);
@@ -89,7 +88,7 @@ namespace NWModManager
                     {
                         Process.Start("https://github.com/stxticOVFL/WhitesStorage/releases/latest");
                         Process.Start("file://" + MelonEnvironment.PluginsDirectory);
-                        Application.Quit();
+                        Environment.Exit(0);
                         return;
                     }
                 }
@@ -174,7 +173,7 @@ namespace NWModManager
                             Modulus = db64(split[0]),
                             Exponent = db64(split[1])
                         });
-                        byte[] data = client.DownloadData("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/encrypt-dev/Keys/PublicKeys.txta");
+                        byte[] data = client.DownloadData("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/encrypt-dev/Keys/PublicKeys.txt");
                         if (!rsa.VerifyData(data, SHA256.Create(), client.DownloadData("https://raw.githubusercontent.com/stxticOVFL/WhitesStorage/encrypt-dev/Keys/PublicKeys.txt.sig")))
                             throw new Exception("The public keys did not pass the signature check.");
 
