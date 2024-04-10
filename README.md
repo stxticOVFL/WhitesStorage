@@ -14,7 +14,7 @@
 - **[GUnJammer](https://github.com/MOPSKATER/GUnJammer)** *0.1.0* by MOPSKATER
 - **[Puppy Powertools](https://github.com/PandorasFox/NeonWhite-PuppyPowerTools)** *1.5.6* by PandorasFox
 - **[Event Tracker](https://github.com/stxticOVFL/EventTracker)** *2.0.1* by stxticOVFL 
-- **[Input Display](https://github.com/stxticOVFL/NeonInputDisplay)** *1.0.2-a* by stxticOVFL
+- **[Input Display](https://github.com/stxticOVFL/NeonInputDisplay)** *1.1.0* by stxticOVFL
 - **[NeonCapture](https://github.com/stxticOVFL/NeonCapture)** *1.0.0* by stxticOVFL
 - **[YourStory](https://github.com/stxticOVFL/YourStory)** *1.0.0* by stxticOVFL
 
