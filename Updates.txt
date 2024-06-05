@@ -7,5 +7,5 @@ Puppy Powertools 1.5.6 https://github.com/PandorasFox/NeonWhite-PuppyPowerTools/
 
 Event Tracker 2.1.0 https://github.com/stxticOVFL/EventTracker/releases/download/v2.1.0/EventTracker.dll https://github.com/stxticOVFL/WhitesStorage/releases/download/ULM/UniverseLib.Mono.dll
 Input Display 1.1.0 https://github.com/stxticOVFL/NeonInputDisplay/releases/download/v1.1.0/InputDisplay.dll
-NeonCapture 1.1.0 https://github.com/stxticOVFL/NeonCapture/releases/download/v1.1.0/NeonCapture.dll
+NeonCapture 1.1.1 https://github.com/stxticOVFL/NeonCapture/releases/download/v1.1.1/NeonCapture.dll
 YourStory 1.0.0 https://github.com/stxticOVFL/YourStory/releases/download/v1.0.0/YourStory.dll 
