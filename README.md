@@ -17,6 +17,8 @@
 - **[Input Display](https://github.com/stxticOVFL/NeonInputDisplay)** *1.1.0* by stxticOVFL
 - **[NeonCapture](https://github.com/stxticOVFL/NeonCapture)** *1.0.0* by stxticOVFL
 - **[YourStory](https://github.com/stxticOVFL/YourStory)** *1.0.0* by stxticOVFL
+- **[NeonWhiteRP](https://github.com/Tuchan/NeonWhiteRP)** *1.2.0* by Tuchan
+- **[NeonSoundReplacer](https://github.com/Tuchan/NeonSoundReplacer)** *1.0.0* by Tuchan
 
 ## Installation
 1. Download [MelonLoader](https://github.com/LavaGang/MelonLoader/releases/latest) and install it onto your `Neon White.exe`.
