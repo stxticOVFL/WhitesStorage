@@ -4,6 +4,6 @@ NeonLite 3.0.10+6 https://github.com/Faustas156/NeonLite/releases/download/3.0.1
 GUnJammer 0.1.0 https://github.com/MOPSKATER/GUnJammer/releases/download/1.0.0/GUnJammer.dll
 
 Event Tracker 2.1.0 https://github.com/stxticOVFL/EventTracker/releases/download/v2.1.0/EventTracker.dll https://github.com/stxticOVFL/WhitesStorage/releases/download/ULM/UniverseLib.Mono.dll
-Input Display 1.1.0 https://github.com/stxticOVFL/NeonInputDisplay/releases/download/v1.1.0/InputDisplay.dll
+Input Display 2.0.0 https://github.com/stxticOVFL/NeonInputDisplay/releases/download/v2.0.0/InputDisplay.dll
 NeonCapture 1.1.2 https://github.com/stxticOVFL/NeonCapture/releases/download/v1.1.2/NeonCapture.dll
 YourStory 1.1.0 https://github.com/stxticOVFL/YourStory/releases/download/v1.1.0/YourStory.dll 
