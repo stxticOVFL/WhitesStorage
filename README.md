@@ -10,13 +10,12 @@
 
 ## Current Mods
 - **[MelonPreferencesManager](https://github.com/Bluscream/MelonPreferencesManager)** *(1.3.1)* by Bluescream/kafeijao
-- **[NeonLite](https://github.com/MOPSKATER/NeonLite)** *3.0.4* by faustas/MOPSKATER/stxticOVFL
+- **[NeonLite](https://github.com/MOPSKATER/NeonLite)** *3.0.10+6* by faustas/MOPSKATER/stxticOVFL
 - **[GUnJammer](https://github.com/MOPSKATER/GUnJammer)** *0.1.0* by MOPSKATER
-- **[Event Tracker](https://github.com/stxticOVFL/EventTracker)** *2.0.1* by stxticOVFL 
-- **[Input Display](https://github.com/stxticOVFL/NeonInputDisplay)** *1.1.0* by stxticOVFL
-- **[NeonCapture](https://github.com/stxticOVFL/NeonCapture)** *1.1.1* by stxticOVFL
-- **[YourStory](https://github.com/stxticOVFL/YourStory)** *1.0.0* by stxticOVFL
-- **[FullSync](https://github.com/stxticOVFL/FullSync)** *1.0.0* by stxticOVFL
+- **[Event Tracker](https://github.com/stxticOVFL/EventTracker)** *2.1.0* by stxticOVFL 
+- **[Input Display](https://github.com/stxticOVFL/NeonInputDisplay)** *2.0.2* by stxticOVFL
+- **[NeonCapture](https://github.com/stxticOVFL/NeonCapture)** *1.1.2* by stxticOVFL
+- **[YourStory](https://github.com/stxticOVFL/YourStory)** *1.1.0* by stxticOVFL
 
 
 ## Installation
