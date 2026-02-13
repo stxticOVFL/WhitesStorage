@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Collections.Generic;
+﻿using System.Net;
 using System.Text.RegularExpressions;
 using MelonLoader;
 using MelonLoader.Utils;

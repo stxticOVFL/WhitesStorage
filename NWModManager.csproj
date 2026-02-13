@@ -1,66 +1,60 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9DC29153-4AC7-4F3A-BB8D-7604166BF768}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>stxticNWStash</RootNamespace>
-    <AssemblyName>stxticNWStash</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="MelonLoader">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Neon White\MelonLoader\net35\MelonLoader.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil, Version=0.10.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Neon White\MelonLoader\net35\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="NWModManager.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Updates.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project>
+    <PropertyGroup>
+        <!-- The name of the mod -->
+        <NWName>NWModManager</NWName>
+        <NWAuthor>stxticOVFL</NWAuthor>
+        <NWVersion>1.0.0</NWVersion>
+        <!-- The name of the *DLL* -->
+        <AssemblyName>WhitesStorage</AssemblyName>
+
+        <!-- Root namespace of the mod -->
+        <RootNamespace>NWModManager</RootNamespace>
+
+        <!-- The folder to copy the DLL to, e.g. Mods or Plugins -->
+        <NWOutput Condition="'$(NWOutput)' == ''">
+            Plugins
+        </NWOutput>
+        <!-- Whether or not to add NeonLite as a reference. Either true or false. Looks in NWDir/Mods -->
+        <NWNeonLite Condition="'$(NWNeonLite)' == ''">
+            false
+        </NWNeonLite>
+        <!-- Whether or not to add UniverseLib as a reference. Either true or false.
+             Looks in NWDir/Mods and NWDir/UserLibs -->
+        <NWUniLib Condition="'$(NWUniLib)' == ''">
+            false
+        </NWUniLib>
+
+        <!-- Whether or not to fill in the assembly info for you. This should usually be true.
+             This also controls GenerateAssemblyInfo -->
+        <NWAssembly Condition="'$(NWAssembly)' == ''">
+            true
+        </NWAssembly>
+        <!-- The name of the class that inherits the relevant Melon class, relative to the root namespace.
+             Usually this matches the name of the root namespace.
+             Only used if NWAssembly is on -->
+        <NWMelonClass>$(RootNamespace)</NWMelonClass>
+        <!-- The color to show in the log for the project. #RRGGBB.
+             Only used if NWAssembly is on -->
+        <NWColor>#E9B847</NWColor>
+        <!-- The author color to show in the log. #RRGGBB.
+             Only used if NWAssembly is on -->
+        <NWAuthorColor>#E17386</NWAuthorColor>
+
+    </PropertyGroup>
+
+    <Import Project="NWCommon.targets" />
+
+    <!-- Non-NWCommon properties, items, etc go here -->
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>12.0</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Add further references by using $(NWManaged) and $(NWDirectory): -->
+        <Reference Include="$(NWDirectory)/MelonLoader/net35/Mono.Cecil.dll" Private="false" />
+        <Content Include="Updates.txt" />
+    </ItemGroup>
+
+    <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
 </Project>

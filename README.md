@@ -25,16 +25,9 @@
 4. Enable the mods you want using the preferences manager (using F5) and just restart whenever you make changes!
 
 ## Building & Contributing
-This project uses Visual Studio 2022 as its project manager. When opening the Visual Studio solution, ensure your references are corrected by right clicking and selecting `Add Reference...` as shown below. 
-Both `MelonLoader` and `Mono.Cecil` will be in `Neon White/MelonLoader/net35`, **not** `net6`.
-If you get any weird errors, try deleting the references and re-adding them manually.
+This project is based on [**NWCommon.**](https://github.com/stxticOVFL/NWCommon/tree/master?tab=readme-ov-file) 
+Follow the build instructions on the repository.
 
-![image](https://github.com/stxticOVFL/WhitesStorage/assets/29069561/ac4efb7d-e9e2-4287-be33-15fa3fd6fcab)
-
-Once your references are correct, build using the keybind or like the picture below.
-
-![image](https://github.com/stxticOVFL/EventTracker/assets/29069561/40a50e46-5fc2-4acc-a3c9-4d4edb8c7d83)
-
-Make any edits as needed, and make a PR for review. PRs are very appreciated.
+Make any edits as needed, and make a PR for review. PRs are very appreciated!
 
 (shoutout to faustas for the name)
