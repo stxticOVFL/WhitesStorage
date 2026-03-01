@@ -8,4 +8,4 @@ Input Display 2.0.2 https://github.com/stxticOVFL/NeonInputDisplay/releases/down
 NeonCapture 1.2.0 https://github.com/stxticOVFL/NeonCapture/releases/download/v1.1.2/NeonCapture.dll
 YourStory 1.1.0 https://github.com/stxticOVFL/YourStory/releases/download/v1.1.0/YourStory.dll 
 
-NeonNetwork 2026.02.13+054803 https://github.com/stxticOVFL/NeonNetwork/releases/download/2026.02.13+054803/NeonNetwork.dll https://github.com/stxticOVFL/WhitesStorage/releases/download/ULM/UniverseLib.Mono.dll
+NeonNetwork 2026.03.01+065228 https://github.com/stxticOVFL/NeonNetwork/releases/download/2026.03.01+065228/NeonNetwork.dll https://github.com/stxticOVFL/WhitesStorage/releases/download/ULM/UniverseLib.Mono.dll
